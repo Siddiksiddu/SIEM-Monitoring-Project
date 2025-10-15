@@ -1,25 +1,40 @@
 # SIEM Monitoring & Alerting Project (Splunk Demo)
 
 ## Project Overview
+
 This project demonstrates practical experience in Security Information and Event Management (SIEM) using **Splunk Enterprise**. It covers key security operations tasks including:
-- Log collection and processing.
-- Development and configuration of **Correlation Rules** for common attack patterns (Brute Force, Privilege Escalation).
-- Creation of **Real-time Alerts**.
-- Design and implementation of a comprehensive **Monitoring Dashboard**.
+* Log collection and processing.
+* Development and configuration of **Correlation Rules** for common attack patterns (Brute Force, Privilege Escalation).
+* Creation of **Real-time Alerts**.
+* Design and implementation of a comprehensive **Monitoring Dashboard**.
+
+---
 
 ## 1. Log Collection and Initial Data Exploration
 
-The project utilizes sample `demo_logs` imported into Splunk.
-Here's an example of the raw events being indexed:
-[![Splunk Raw Events](brute_force_alert_config 1.png)](YOUR_DIRECT_URL_FOR_brute_force_alert_config_1.png)
+The project utilizes sample logs imported into Splunk.
+
+### A. Raw Events Ingestion
+
+This screenshot confirms that the `tutorialdata.zip` logs were successfully ingested, indexed, and fields were being extracted for analysis.
+
+[![Splunk Raw Events](SIEM-MONITORING-1.jpg)](https://github.com/Siddiksddu/SIEM-Monitoring-Project/blob/main/SIEM-MONITORING-1.jpg)
+
+---
 
 ## 2. Brute Force Detection
 
-**Objective:** Identify multiple failed login attempts from a single source or user within a short timeframe. A threshold of more than 5 failed attempts within 5 minutes was set.
+**Objective:** Identify multiple failed login attempts from a single source or user within a short timeframe (threshold: >5 failures in 5 minutes).
 
-### A. Splunk Search Processing Language (SPL) for Detection
-The following SPL query was developed to identify brute force attempts:
-splunk
+### A. Initial Log Filtering
+
+This initial view shows multiple failed login attempts against various users from the same source IP, indicating a reconnaissance phase.
+[![Log Filtering](SIEM-MONITORING-4.jpg)](https://github.com/Siddiksddu/SIEM-Monitoring-Project/blob/main/SIEM-MONITORING-4.jpg)
+
+### B. Correlation Rule (SPL and Results)
+
+The SPL uses `| stats count` and `| where` to isolate true brute-force attempts. The results confirm a single user had **123 failed logins**, validating the rule's effectiveness.
+```splunk
 index="demo_logs" 
 | rex "(?i)Failed password for (?<user>\w+) from (?<src_ip>\d+\.\d+\d+\.\d+\.\d+)" 
 | eval action="failed" 
