@@ -11,7 +11,7 @@ This project demonstrates practical experience in Security Information and Event
 
 The project utilizes sample `demo_logs` imported into Splunk.
 Here's an example of the raw events being indexed:
-[![Splunk Raw Events](brute_force_alert_config 1.png)](https://github.com/Siddiksddu/SIEM-Monitoring-Project/blob/main/brute_force_alert_config%201.png)
+[![Splunk Raw Events](brute_force_alert_config 1.png)](YOUR_DIRECT_URL_FOR_brute_force_alert_config_1.png)
 
 ## 2. Brute Force Detection
 
